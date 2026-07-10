@@ -80,8 +80,7 @@ container_exists() {
     # Try to inspect the container.
     # If the command succeeds, the container exists.
     # If it fails, the container does not exist.
-    docker inspect "$CONTAINER_NAME"
-    return $?
+    docker ps -a --format "{{.Names}}" | grep -w "$CONTAINER_NAME" > /dev/null
 }
 
 # ---- HELPER FUNCTION: RESTART CONTAINER ----
@@ -103,7 +102,7 @@ restart_container() {
     else
         # Container does not exist → create a new one
         log "WARNING" "Container does not exist. Creating new container..."
-        docker run -d -p 80:80 --name "$CONTAINER_NAME" "$IMAGE_NAME" > /dev/null 2>&1
+        docker run -d -p 80:80 --name "$CONTAINER_NAME" "$IMAGE_NAME" 
 
         # Check if the new container is running
         if is_running; then
