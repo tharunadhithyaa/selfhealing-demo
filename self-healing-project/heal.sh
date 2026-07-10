@@ -82,7 +82,6 @@ container_exists() {
     # If it fails, the container does not exist.
     docker ps -a --format "{{.Names}}" | grep -w "$CONTAINER_NAME" > /dev/null
 }
-
 # ---- HELPER FUNCTION: RESTART CONTAINER ----
 # Attempts to restart the container.
 # If the container was deleted, creates a new one.
