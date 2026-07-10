@@ -27,7 +27,7 @@
 CONTAINER_NAME="simplewebsite"
 
 # Name of the Docker image to use when creating
-# a new container (must match what Jenkins builds)
+# A new container (must match what Jenkins builds)
 IMAGE_NAME="simplewebsite"
 
 # How often to check the container (in seconds)
