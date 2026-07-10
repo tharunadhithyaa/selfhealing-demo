@@ -97,13 +97,15 @@ restart_container() {
     else
         log "WARNING" "Container does not exist. Creating new container..."
 
-        if docker run -d -p 80:80 --name "$CONTAINER_NAME" "$IMAGE_NAME"  then
-            log "SUCCESS" "New container created successfully."
-        else
-            log "ERROR" "Failed to create new container."
-        fi
+       docker run -d -p 80:80 --name "$CONTAINER_NAME" "$IMAGE_NAME"
+
+       if [ $? -eq 0 ]; then
+           log "SUCCESS" "New container created successfully."
+       else
+           log "ERROR" "Failed to create new container."
+       fi
     fi
-}
+}   
 
 # ============================================
 # MAIN LOOP
