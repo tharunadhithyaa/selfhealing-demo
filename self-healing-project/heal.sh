@@ -63,7 +63,7 @@ is_running() {
     # 2>/dev/null hides error messages if the
     # container doesn't exist at all.
     local status
-    status=$(docker inspect --format='{{.State.Running}}' "$CONTAINER_NAME" 2>/dev/null)
+    status=$(docker inspect --format='{{.State.Running}}' "$CONTAINER_NAME")
 
     # If the status is "true", the container is running
     if [ "$status" == "true" ]; then
@@ -80,7 +80,7 @@ container_exists() {
     # Try to inspect the container.
     # If the command succeeds, the container exists.
     # If it fails, the container does not exist.
-    docker inspect "$CONTAINER_NAME" > /dev/null 2>&1
+    docker inspect "$CONTAINER_NAME"
     return $?
 }
 
@@ -92,7 +92,7 @@ restart_container() {
     if container_exists; then
         # Container exists but is stopped → restart it
         log "WARNING" "Attempting to restart container..."
-        docker start "$CONTAINER_NAME" > /dev/null 2>&1
+        docker start "$CONTAINER_NAME"
 
         # Check if the restart was successful
         if is_running; then
@@ -103,7 +103,7 @@ restart_container() {
     else
         # Container does not exist → create a new one
         log "WARNING" "Container does not exist. Creating new container..."
-        docker run -d -p 80:80 --name "$CONTAINER_NAME" "$IMAGE_NAME" > /dev/null 2>&1
+        docker run -d -p 80:80 --name "$CONTAINER_NAME" "$IMAGE_NAME"
 
         # Check if the new container is running
         if is_running; then
