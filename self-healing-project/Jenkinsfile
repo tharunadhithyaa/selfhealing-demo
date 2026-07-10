@@ -1,0 +1,116 @@
+// ============================================
+// JENKINSFILE - Self-Healing CI/CD Pipeline
+// ============================================
+// This is a Jenkins Declarative Pipeline.
+//
+// It automates the process of:
+//   1. Pulling code from GitHub
+//   2. Building a Docker image
+//   3. Stopping the old container
+//   4. Removing the old container
+//   5. Starting a new container
+//
+// Prerequisites:
+//   - Jenkins installed with Pipeline plugin
+//   - Docker installed on the Jenkins server
+//   - Jenkins user added to the docker group
+//
+// How to use:
+//   1. Create a new Pipeline job in Jenkins
+//   2. Point it to your GitHub repository
+//   3. Jenkins will find this Jenkinsfile and
+//      run the pipeline automatically
+// ============================================
+
+pipeline {
+    // Run on any available Jenkins agent
+    agent any
+
+    stages {
+
+        // ---- STAGE 1: CHECKOUT ----
+        // Pull the latest code from the GitHub repository.
+        // Jenkins does this automatically when configured
+        // with a Git repository URL.
+        stage('Checkout') {
+            steps {
+                echo '==============================='
+                echo 'Stage 1: Checking out code...'
+                echo '==============================='
+                checkout scm
+            }
+        }
+
+        // ---- STAGE 2: BUILD DOCKER IMAGE ----
+        // Build a new Docker image from the Dockerfile.
+        // The image is tagged as "mywebsite" so we can
+        // reference it easily in later stages.
+        stage('Build Docker Image') {
+            steps {
+                echo '==============================='
+                echo 'Stage 2: Building Docker image...'
+                echo '==============================='
+                sh 'docker build -t mywebsite .'
+            }
+        }
+
+        // ---- STAGE 3: STOP EXISTING CONTAINER ----
+        // Stop the currently running container (if any).
+        // The "|| true" at the end prevents the pipeline
+        // from failing if no container is running.
+        stage('Stop Existing Container') {
+            steps {
+                echo '==============================='
+                echo 'Stage 3: Stopping old container...'
+                echo '==============================='
+                sh 'docker stop mywebsite || true'
+            }
+        }
+
+        // ---- STAGE 4: REMOVE EXISTING CONTAINER ----
+        // Remove the stopped container to free up the
+        // container name "mywebsite" for the new one.
+        // Again, "|| true" prevents errors if it
+        // doesn't exist.
+        stage('Remove Existing Container') {
+            steps {
+                echo '==============================='
+                echo 'Stage 4: Removing old container...'
+                echo '==============================='
+                sh 'docker rm mywebsite || true'
+            }
+        }
+
+        // ---- STAGE 5: RUN NEW CONTAINER ----
+        // Start a new container from the freshly built
+        // image. Flags explained:
+        //   -d          : Run in background (detached)
+        //   -p 80:80    : Map host port 80 to container port 80
+        //   --name      : Give the container a name
+        stage('Run New Container') {
+            steps {
+                echo '==============================='
+                echo 'Stage 5: Starting new container...'
+                echo '==============================='
+                sh 'docker run -d -p 80:80 --name mywebsite mywebsite'
+            }
+        }
+    }
+
+    // ---- POST ACTIONS ----
+    // These run after all stages complete.
+    post {
+        success {
+            echo '==========================================='
+            echo 'DEPLOYMENT SUCCESSFUL!'
+            echo 'Website is now live at http://localhost:80'
+            echo '==========================================='
+        }
+        failure {
+            echo '==========================================='
+            echo 'DEPLOYMENT FAILED!'
+            echo 'Check the logs above for errors.'
+            echo '==========================================='
+        }
+    }
+}

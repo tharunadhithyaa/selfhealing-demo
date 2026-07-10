@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!--
+    ============================================
+    SELF-HEALING CI/CD PLATFORM
+    ============================================
+    A demonstration website for a DevOps project
+    showcasing CI/CD pipelines, Docker deployment,
+    and automatic self-healing.
+    
+    Author:  BCA Final Year Project
+    Version: 1.0.0
+    ============================================
+  -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO Meta Tags -->
+  <title>Self-Healing CI/CD Platform | DevOps Demo</title>
+  <meta name="description" content="An intelligent self-healing CI/CD platform with predictive monitoring for web applications. A DevOps demonstration project." />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ===================== HEADER / NAVIGATION ===================== -->
+  <header class="header">
+    <div class="container">
+      <!-- Logo with a live-status pulse dot -->
+      <a href="#" class="logo">
+        <span class="logo-dot"></span>
+        SelfHeal CI/CD
+      </a>
+
+      <!-- Navigation links (hidden on mobile via CSS) -->
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#status">Status</a></li>
+          <li><a href="#pipeline">Pipeline</a></li>
+          <li><a href="#healing">Self-Healing</a></li>
+          <li><a href="#architecture">Architecture</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+
+  <!-- ===================== HERO SECTION ===================== -->
+  <!--
+    The hero section is the first thing visitors see.
+    It contains the project title, a brief description,
+    and call-to-action buttons.
+  -->
+  <section class="hero" id="hero">
+    <div class="container">
+      <span class="hero-badge">&#9679; DevOps Demo Project</span>
+
+      <h1>Intelligent Self-Healing<br />CI/CD Platform</h1>
+
+      <p class="hero-description">
+        A beginner-friendly demonstration of automated CI/CD pipelines with
+        Docker containerization and self-healing capabilities. Built for
+        learning DevOps fundamentals.
+      </p>
+
+      <div class="hero-buttons">
+        <a href="#pipeline" class="btn btn-primary">
+          &#9654; View Pipeline
+        </a>
+        <a href="#healing" class="btn btn-secondary">
+          &#128736; How Self-Healing Works
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================== DEPLOYMENT STATUS CARDS ===================== -->
+  <!--
+    These cards display the current deployment status.
+    In a real project, these values would be dynamically
+    updated by the CI/CD pipeline. Here they are static
+    for demonstration purposes.
+  -->
+  <section class="status-section" id="status">
+    <div class="container">
+      <h2 class="section-title">Deployment Status</h2>
+      <p class="section-subtitle">
+        Real-time overview of the current deployment health and version.
+      </p>
+
+      <div class="status-grid">
+        <!-- Card 1: Deployment Status -->
+        <div class="status-card">
+          <div class="status-card-label">Status</div>
+          <div class="status-card-value green">&#10004; Deployed</div>
+          <div class="status-card-detail">All systems operational</div>
+        </div>
+
+        <!-- Card 2: Version Number -->
+        <div class="status-card">
+          <div class="status-card-label">Version</div>
+          <div class="status-card-value cyan">v1.0.0</div>
+          <div class="status-card-detail">Latest stable release</div>
+        </div>
+
+        <!-- Card 3: Deployment Time -->
+        <div class="status-card">
+          <div class="status-card-label">Deployed At</div>
+          <div class="status-card-value amber" id="deploy-time">--</div>
+          <div class="status-card-detail">Auto-updated on deploy</div>
+        </div>
+
+        <!-- Card 4: Container Health -->
+        <div class="status-card">
+          <div class="status-card-label">Container</div>
+          <div class="status-card-value purple">mywebsite</div>
+          <div class="status-card-detail">Docker &middot; nginx:alpine</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================== CI/CD PIPELINE SECTION ===================== -->
+  <!--
+    Visual representation of the Jenkins CI/CD pipeline.
+    Each stage is shown as a card with an icon, connected
+    by arrows to show the flow.
+  -->
+  <section class="pipeline-section" id="pipeline">
+    <div class="container">
+      <h2 class="section-title">CI/CD Pipeline</h2>
+      <p class="section-subtitle">
+        Automated build and deployment workflow powered by Jenkins and Docker.
+      </p>
+
+      <div class="pipeline-flow">
+        <!-- Stage 1: Git Push -->
+        <div class="pipeline-stage">
+          <span class="stage-icon">&#128187;</span>
+          <span class="stage-name">Git Push</span>
+          <span class="stage-desc">Developer commits</span>
+        </div>
+
+        <span class="pipeline-arrow">&#10132;</span>
+
+        <!-- Stage 2: Jenkins -->
+        <div class="pipeline-stage">
+          <span class="stage-icon">&#9881;</span>
+          <span class="stage-name">Jenkins</span>
+          <span class="stage-desc">Triggers pipeline</span>
+        </div>
+
+        <span class="pipeline-arrow">&#10132;</span>
+
+        <!-- Stage 3: Docker Build -->
+        <div class="pipeline-stage">
+          <span class="stage-icon">&#128230;</span>
+          <span class="stage-name">Docker Build</span>
+          <span class="stage-desc">Create image</span>
+        </div>
+
+        <span class="pipeline-arrow">&#10132;</span>
+
+        <!-- Stage 4: Deploy -->
+        <div class="pipeline-stage">
+          <span class="stage-icon">&#128640;</span>
+          <span class="stage-name">Deploy</span>
+          <span class="stage-desc">Run container</span>
+        </div>
+
+        <span class="pipeline-arrow">&#10132;</span>
+
+        <!-- Stage 5: Live -->
+        <div class="pipeline-stage">
+          <span class="stage-icon">&#127760;</span>
+          <span class="stage-name">Live</span>
+          <span class="stage-desc">Website online</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================== SELF-HEALING SECTION ===================== -->
+  <!--
+    Explains how the self-healing script (heal.sh) works.
+    Left side: step-by-step explanation.
+    Right side: terminal-style output preview.
+  -->
+  <section class="healing-section" id="healing">
+    <div class="container">
+      <h2 class="section-title">Self-Healing System</h2>
+      <p class="section-subtitle">
+        Automatic recovery when the application container goes down.
+      </p>
+
+      <div class="healing-grid">
+        <!-- Left column: Steps -->
+        <div class="healing-steps">
+          <!-- Step 1 -->
+          <div class="healing-step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>Monitor Container</h4>
+              <p>
+                The heal.sh script checks the Docker container status
+                every 10 seconds using a simple loop.
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="healing-step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>Detect Failure</h4>
+              <p>
+                If the container named "mywebsite" is not running,
+                the script immediately detects the failure.
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="healing-step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>Auto-Restart</h4>
+              <p>
+                The script attempts to restart the container. If it
+                doesn't exist, it creates a brand new one from the
+                latest Docker image.
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="healing-step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h4>Log Everything</h4>
+              <p>
+                Every action is logged with a timestamp so you can
+                trace exactly what happened and when.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right column: Terminal preview -->
+        <div class="terminal">
+          <div class="terminal-header">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+            <span class="terminal-title">heal.sh</span>
+          </div>
+
+          <span class="terminal-line t-muted">$ bash heal.sh</span>
+          <span class="terminal-line t-green">2026-07-10 10:30:00 [INFO] Checking container...</span>
+          <span class="terminal-line t-green">2026-07-10 10:30:00 [INFO] Container is healthy.</span>
+          <span class="terminal-line t-green">2026-07-10 10:30:10 [INFO] Checking container...</span>
+          <span class="terminal-line t-green">2026-07-10 10:30:10 [INFO] Container is healthy.</span>
+          <span class="terminal-line t-green">2026-07-10 10:30:20 [INFO] Checking container...</span>
+          <span class="terminal-line t-amber">2026-07-10 10:30:20 [WARNING] Container stopped.</span>
+          <span class="terminal-line t-amber">2026-07-10 10:30:20 [WARNING] Attempting restart...</span>
+          <span class="terminal-line t-cyan">2026-07-10 10:30:21 [SUCCESS] Container recovered.</span>
+          <span class="terminal-line t-green">2026-07-10 10:30:31 [INFO] Checking container...</span>
+          <span class="terminal-line t-green">2026-07-10 10:30:31 [INFO] Container is healthy.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================== ARCHITECTURE SECTION ===================== -->
+  <!--
+    A vertical flow diagram showing the project architecture:
+    Developer → Git → GitHub → Jenkins → Docker → Website → Self-Healing
+  -->
+  <section class="architecture-section" id="architecture">
+    <div class="container">
+      <h2 class="section-title">Architecture</h2>
+      <p class="section-subtitle">
+        End-to-end flow from code commit to automatic recovery.
+      </p>
+
+      <div class="arch-flow">
+        <div class="arch-node">
+          <div class="arch-node-title">&#128104;&#8205;&#128187; Developer</div>
+          <div class="arch-node-sub">Writes and edits code</div>
+        </div>
+        <div class="arch-arrow">&#9660;</div>
+
+        <div class="arch-node">
+          <div class="arch-node-title">&#128194; Git</div>
+          <div class="arch-node-sub">Version control &amp; commit</div>
+        </div>
+        <div class="arch-arrow">&#9660;</div>
+
+        <div class="arch-node">
+          <div class="arch-node-title">&#9729; GitHub</div>
+          <div class="arch-node-sub">Remote repository &amp; webhook</div>
+        </div>
+        <div class="arch-arrow">&#9660;</div>
+
+        <div class="arch-node">
+          <div class="arch-node-title">&#9881; Jenkins</div>
+          <div class="arch-node-sub">CI/CD pipeline automation</div>
+        </div>
+        <div class="arch-arrow">&#9660;</div>
+
+        <div class="arch-node">
+          <div class="arch-node-title">&#128230; Docker</div>
+          <div class="arch-node-sub">Build image &amp; run container</div>
+        </div>
+        <div class="arch-arrow">&#9660;</div>
+
+        <div class="arch-node">
+          <div class="arch-node-title">&#127760; Web Application</div>
+          <div class="arch-node-sub">Served via nginx on port 80</div>
+        </div>
+        <div class="arch-arrow">&#9660;</div>
+
+        <div class="arch-node">
+          <div class="arch-node-title">&#128154; Self-Healing Script</div>
+          <div class="arch-node-sub">Monitors &amp; auto-recovers container</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <div class="container">
+      <p class="footer-text">
+        &copy; 2026 Self-Healing CI/CD Platform &mdash;
+        BCA Final Year Project &middot;
+        Built with HTML, CSS, Docker &amp; Jenkins
+      </p>
+      <ul class="footer-links">
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#pipeline">Pipeline</a></li>
+        <li><a href="#healing">Self-Healing</a></li>
+        <li><a href="#architecture">Architecture</a></li>
+      </ul>
+    </div>
+  </footer>
+
+
+  <!-- ===================== JAVASCRIPT ===================== -->
+  <!--
+    Only a tiny script to display the current date/time
+    in the "Deployed At" status card.
+  -->
+  <script src="script.js"></script>
+
+</body>
+</html>
