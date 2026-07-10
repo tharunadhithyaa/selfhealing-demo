@@ -97,13 +97,13 @@ restart_container() {
         # Check if the restart was successful
         if is_running; then
             log "SUCCESS" "Container recovered successfully."
-        else
+        else            
             log "ERROR" "Restart failed. Check Docker logs."
         fi
     else
         # Container does not exist → create a new one
         log "WARNING" "Container does not exist. Creating new container..."
-        docker run -d -p 80:80 --name "$CONTAINER_NAME" "$IMAGE_NAME"
+        docker run -d -p 80:80 --name "$CONTAINER_NAME" "$IMAGE_NAME" > /dev/null 2>&1
 
         # Check if the new container is running
         if is_running; then
