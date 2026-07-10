@@ -63,14 +63,12 @@ is_running() {
     # 2>/dev/null hides error messages if the
     # container doesn't exist at all.
     local status
-    status=$(docker inspect --format='{{.State.Running}}' "$CONTAINER_NAME")
-
-    # If the status is "true", the container is running
-    if [ "$status" == "true" ]; then
-        return 0  # 0 means success/true in Bash
-    else
-        return 1  # 1 means failure/false in Bash
-    fi
+    status=$(docker container inspect --format='{{.State.Running}}' "$CONTAINER_NAME" 2>/dev/null)
+    if [ "$status" = "true" ]; then      
+        return 0                           
+    else                                     
+        return 1 
+    fi   
 }
 
 # ---- HELPER FUNCTION: DOES CONTAINER EXIST? ----
@@ -80,34 +78,29 @@ container_exists() {
     # Try to inspect the container.
     # If the command succeeds, the container exists.
     # If it fails, the container does not exist.
-    docker ps -a --format "{{.Names}}" | grep -w "$CONTAINER_NAME" > /dev/null
+    docker container inspect "$CONTAINER_NAME" >/dev/null 2>&1
 }
 # ---- HELPER FUNCTION: RESTART CONTAINER ----
 # Attempts to restart the container.
 # If the container was deleted, creates a new one.
 restart_container() {
     # First, check if the container still exists
-    if container_exists; then
-        # Container exists but is stopped → restart it
+  if container_exists; then
         log "WARNING" "Attempting to restart container..."
-        docker start "$CONTAINER_NAME"
 
-        # Check if the restart was successful
-        if is_running; then
-            log "SUCCESS" "Container recovered successfully."
-        else            
-            log "ERROR" "Restart failed. Check Docker logs."
-        fi
-    else
-        # Container does not exist → create a new one
-        log "WARNING" "Container does not exist. Creating new container..."
-        docker run -d -p 80:80 --name "$CONTAINER_NAME" "$IMAGE_NAME" 
-
-        # Check if the new container is running
-        if is_running; then
-            log "SUCCESS" "Container recovered successfully."
+        if docker start "$CONTAINER_NAME" >/dev/null 2>&1; then
+            log "SUCCESS" "Container restarted successfully."
         else
-            log "ERROR" "Failed to create new container. Is the image available?"
+            log "ERROR" "Failed to restart container."
+        fi
+
+    else
+        log "WARNING" "Container does not exist. Creating new container..."
+
+        if docker run -d -p 80:80 --name "$CONTAINER_NAME" "$IMAGE_NAME" >/dev/null 2>&1; then
+            log "SUCCESS" "New container created successfully."
+        else
+            log "ERROR" "Failed to create new container."
         fi
     fi
 }
