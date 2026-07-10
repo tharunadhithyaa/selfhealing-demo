@@ -4,7 +4,7 @@
 # SELF-HEALING SCRIPT - heal.sh
 # ============================================
 # This script monitors the Docker container
-# named "mywebsite" and automatically restarts
+# named "simplewebsite" and automatically restarts
 # it if it stops running.
 #
 # How it works:
@@ -24,11 +24,11 @@
 
 # ---- CONFIGURATION ----
 # Name of the Docker container to monitor
-CONTAINER_NAME="mywebsite"
+CONTAINER_NAME="simplewebsite"
 
 # Name of the Docker image to use when creating
 # a new container (must match what Jenkins builds)
-IMAGE_NAME="mywebsite"
+IMAGE_NAME="simplewebsite"
 
 # How often to check the container (in seconds)
 CHECK_INTERVAL=10
