@@ -51,7 +51,7 @@ pipeline {
                 echo '==============================='
                 echo 'Stage 2: Building Docker image...'
                 echo '==============================='
-                bat 'docker build -t mywebsite .'
+                bat 'docker build -t simplewebsite .'
                 }
             }
         }
@@ -66,7 +66,7 @@ pipeline {
                 echo '==============================='
                 echo 'Stage 3: Stopping old container...'
                 echo '==============================='
-                bat 'docker stop mywebsite || exit /b 0'
+                bat 'docker stop simplewebsite || exit /b 0'
                 }
             }
         }
@@ -82,7 +82,7 @@ pipeline {
                 echo '==============================='
                 echo 'Stage 4: Removing old container...'
                 echo '==============================='
-                bat 'docker rm mywebsite || exit /b 0'
+                bat 'docker rm simplewebsite || exit /b 0'
                 }
             }
         }
@@ -99,7 +99,7 @@ pipeline {
                 echo '==============================='
                 echo 'Stage 5: Starting new container...'
                 echo '==============================='
-                bat 'docker run -d -p 80:80 --name mywebsite mywebsite'
+                bat 'docker run -d -p 80:80 --name simplewebsite simplewebsite'
                 }
             }
         }
