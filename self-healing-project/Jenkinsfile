@@ -47,10 +47,12 @@ pipeline {
         // reference it easily in later stages.
         stage('Build Docker Image') {
             steps {
+                dir('self-healing-project'){
                 echo '==============================='
                 echo 'Stage 2: Building Docker image...'
                 echo '==============================='
                 bat 'docker build -t mywebsite .'
+                }
             }
         }
 
@@ -60,10 +62,12 @@ pipeline {
         // from failing if no container is running.
         stage('Stop Existing Container') {
             steps {
+                dir('self-healing-project'){
                 echo '==============================='
                 echo 'Stage 3: Stopping old container...'
                 echo '==============================='
                 bat 'docker stop mywebsite || exit /b 0'
+                }
             }
         }
 
@@ -74,10 +78,12 @@ pipeline {
         // doesn't exist.
         stage('Remove Existing Container') {
             steps {
+                dir('self-healing-project'){
                 echo '==============================='
                 echo 'Stage 4: Removing old container...'
                 echo '==============================='
                 bat 'docker rm mywebsite || exit /b 0'
+                }
             }
         }
 
@@ -89,10 +95,12 @@ pipeline {
         //   --name      : Give the container a name
         stage('Run New Container') {
             steps {
+                dir('self-healing-project'){
                 echo '==============================='
                 echo 'Stage 5: Starting new container...'
                 echo '==============================='
                 bat 'docker run -d -p 80:80 --name mywebsite mywebsite'
+                }
             }
         }
     }
